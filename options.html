@@ -1,0 +1,77 @@
+<html>
+<head><title>CSS Destyler Options</title>
+<script type="text/javascript">
+
+/*Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+}
+ 
+Storage.prototype.getObject = function(key) {
+    return JSON.parse(this.getItem(key));
+} */
+var opts;
+function set_options(options) {
+	chrome.extension.sendRequest({action:"set_options",options:options}, function(response) {});
+	restore_options(options);
+}
+function get_options() {
+	chrome.extension.sendRequest({action:"get_options"}, function(response) {
+	if(response.options) {
+		options = response.options;
+		restore_options(options);
+		opts = options;
+		
+	}
+	});
+}
+
+
+// Restores select box state to saved value from localStorage.
+function restore_options(options) {
+	blacklist = options;
+	var list = document.getElementById("blacklist");
+	list.innerHTML = "";
+	if (!blacklist || blacklist.length == 0) {
+		list.innerHTML = "None";
+		return;
+	} else {
+	
+		for (var i = 0; i < blacklist.length; i++) {
+			var black = blacklist[i];
+			list.innerHTML += "<div>" + black + "</div>";
+		}
+	}
+}
+function clear_list() {
+	set_options(new Array());
+	restore_options();
+}
+function add_item() {
+	var blacklist = opts;
+
+	item = document.getElementById("new");
+	if(item.value) {
+		blacklist[blacklist.length] = [item.value];
+		
+		item.value = "";
+	}
+	set_options(blacklist);
+	
+}
+
+</script>
+</head>
+<body onload="get_options()">
+<h1>CSS Destyler Options</h1>
+<h2>Existing Style Blacklist:</h2>
+<div id="blacklist">
+</div>
+
+
+<h2>Add a new site</h2>
+<input type="text" id="new" placeholder="URL"/><button onclick="add_item();">Add</button>
+(Will match any part of the URL, be as specific as you want to be.)
+<br/><br/>
+<button onclick="clear_list();">Reset all Settings</button>
+</body>
+</html>
