@@ -2,13 +2,7 @@
 <head><title>CSS Destyler Options</title>
 <script type="text/javascript">
 
-/*Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value));
-}
- 
-Storage.prototype.getObject = function(key) {
-    return JSON.parse(this.getItem(key));
-} */
+
 var opts;
 function set_options(options) {
 	chrome.extension.sendRequest({action:"set_options",options:options}, function(response) {});
@@ -32,10 +26,11 @@ function restore_options(options) {
 	var list = document.getElementById("blacklist");
 	list.innerHTML = "";
 	if (!blacklist || blacklist.length == 0) {
+		console.log("no options");
 		list.innerHTML = "None";
 		return;
 	} else {
-	
+		console.log("many options");
 		for (var i = 0; i < blacklist.length; i++) {
 			var black = blacklist[i];
 			list.innerHTML += "<div>" + black + "</div>";
@@ -44,7 +39,7 @@ function restore_options(options) {
 }
 function clear_list() {
 	set_options(new Array());
-	restore_options();
+	get_options();
 }
 function add_item() {
 	var blacklist = opts;
@@ -63,12 +58,12 @@ function add_item() {
 </head>
 <body onload="get_options()">
 <h1>CSS Destyler Options</h1>
-<h2>Existing Style Blacklist:</h2>
+<h2>Destyle the following URLs:</h2>
 <div id="blacklist">
 </div>
 
 
-<h2>Add a new site</h2>
+<h2>Add a new site to destyle:</h2>
 <input type="text" id="new" placeholder="URL"/><button onclick="add_item();">Add</button>
 (Will match any part of the URL, be as specific as you want to be.)
 <br/><br/>
