@@ -9,9 +9,12 @@
 		case "check_url":
 			var answer;
 			var blacklist = JSON.parse(localStorage["options"]);
+			
 			for(i = 0;i<blacklist.length;i++) {
-				sendResponse({disable:true});
-				return;
+				if(request.url.match(new RegExp(blacklist[i]))) {
+					sendResponse({disable:true});
+					return;
+				}
 			}
 			sendResponse({disable:false});
 			
