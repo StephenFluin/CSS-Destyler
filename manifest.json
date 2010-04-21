@@ -1,7 +1,7 @@
 {
   "update_url":"http://mortalpowers.com/extensions/cssdestyler/cssdestyler.xml",
   "name": "CSS Destyler",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Destyles the current page.",
   "icons": { "48": "images/logo_48.png" },
   "content_scripts" : [

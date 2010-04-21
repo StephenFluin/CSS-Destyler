@@ -27,12 +27,10 @@
 			break;
 		
 		case "get_options":
-			console.log("Getting options from localStorage.");
 			if(!localStorage["options"]) {
 				localStorage["options"] = JSON.stringify(new Array());
 			}
 			sendResponse({options:JSON.parse(window.localStorage["options"])});
-			console.log("done with potentially illegal action.");
 			break;
 	}
 
